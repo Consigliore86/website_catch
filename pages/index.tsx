@@ -87,11 +87,13 @@ export async function getServerSideProps() {
         error: null,
       },
     };
-  } catch (err) {
+  } catch (err: unknown) {
+    // Sicherstellen, dass err ein Error-Objekt ist
+    const errorMessage = err instanceof Error ? err.message : 'Failed to fetch data from Supabase';
     return {
       props: {
         data: [],
-        error: { message: err.message || 'Failed to fetch data from Supabase' },
+        error: { message: errorMessage },
       },
     };
   }
